@@ -4,19 +4,20 @@
       <img class="logo" src="./assets/logo.png" alt="Vue Weather">
       <h3>BUSCAR CIDADE</h3>
       <div class="search-box">
-        <input type="text" class="search-bar" placeholder="Pesquisar...">
+        <input type="text" class="search-bar" placeholder="Pesquisar..." v-model="query" @keypress="fetchWeather">
       </div>
 
-      <div class="weather-container">
+      <div class="weather-container" v-if="typeof weather.main != 'undefined'" >
         <div class="weather-display">
           <div class="location-bx">
-            <div class="location">João Pessoa, PB</div>
-            <div class="date">Segunda-feira, 31 de outubro de 2022</div>
+            <div class="location">{{ weather.name }}, {{ weather.sys.country }}</div>
+            <div class="date">{{ dateBuilder() }}</div>
           </div>
 
           <div class="weather-bx">
-            <div class="temperature">25º</div>
-            <div class="weather">Chuva</div>
+            <div class="temperature">{{ Math.round(weather.main.temp) }}°<small>c</small></div>
+            <div class="weather">{{ weather.weather[0].main }}</div>
+            <img :src='weatherIcon()' />
           </div>
         </div>
       </div>
@@ -26,7 +27,41 @@
 
 <script>
   export default {
-    name: 'App'
+    name: 'app',
+    data () {
+      return {
+        api_key: '36819ca66f3207df4e42e3325a296b7a',
+        url_base: 'https://api.openweathermap.org/data/2.5/',
+        query: '',
+        weather: {}
+      }
+    },
+    methods: {
+      fetchWeather (e) {
+        if (e.key == "Enter") {
+          fetch(`${this.url_base}weather?q=${this.query}&units=metric&APPID=${this.api_key}`).then(
+            res => {
+              return res.json();
+            }).then(this.setResults);
+        }
+      },
+      setResults (results) {
+        this.weather = results;
+      },
+      weatherIcon () {
+        return `http://openweathermap.org/img/wn/${this.weather.weather[0].icon}@2x.png`
+      },
+      dateBuilder () {
+        let d = new Date();
+        let months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+        let days = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
+        let day = days[d.getDay()];
+        let date = d.getDate();
+        let month = months[d.getMonth()];
+        let year = d.getFullYear();
+        return `${day}, ${date} de ${month} de ${year}`;
+      }
+    }
   }
 </script>
 
