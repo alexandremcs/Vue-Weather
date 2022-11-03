@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :class="typeof weather.main != 'undefined' && weather.main.temp > 18 ? 'warm' : ''">
     <main>
       <img class="logo" src="./assets/logo.png" alt="Vue Weather">
       <h3>BUSCAR CIDADE</h3>
@@ -76,7 +76,14 @@
   body {
     font-family: 'montserrat', sans-serif;
     text-align: center;
-    background-image: url(./assets/bg.jpg);
+  }
+  #app {
+    background-image: url(./assets/bg-cold.jpg);
+    background-size: cover;
+    transition: 0.4s;
+  }
+  #app.warm {    
+   background-image: url(./assets/bg.jpg);
   }
   .logo {
     height: 200px;
@@ -88,7 +95,7 @@
   main {
     min-height: 100vh;
     padding: 25px;
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 1));
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.75));
   }
   .search-box {
     width: 100%;
