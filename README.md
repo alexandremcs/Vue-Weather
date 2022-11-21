@@ -11,7 +11,7 @@ O _Vue Weather_ é mais um projeto fruto do meu aprofundamento em _JavaScript_, 
 O projeto consiste em retornar os dados climáticos das localidades pesquisadas. Para isso, utilizei a API do [OpenWeatherMap](https://openweathermap.org/).
 
 ## Deploy
-[Live Demo](https://shorturl.at/jlH13)
+[Live Demo](https://6372334f7145a92d8bd73b3d--sparkly-banoffee-0499ac.netlify.app/)
 
 ## Imagem do projeto:
 
